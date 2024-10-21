@@ -73,5 +73,5 @@ Une fois les certificats générés et placés dans le dossier certs, vous pouve
 2- Lancer le conteneur : Exécutez la commande suivante pour démarrer le serveur PostgreSQL dans un conteneur Docker avec SSL activé :
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
