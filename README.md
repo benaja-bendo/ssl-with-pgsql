@@ -63,3 +63,15 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in certs/server.key -out certs/se
 ```
 
 Cette conversion est utile pour assurer la compatibilité avec certaines applications Java qui préfèrent le format .pk8.
+
+## Lancer le serveur PostgreSQL avec Docker
+
+Une fois les certificats générés et placés dans le dossier certs, vous pouvez lancer votre serveur PostgreSQL protégé par SSL/TLS à l'aide de Docker. Pour ce faire, suivez les étapes ci-dessous :
+
+1- Assurez-vous que le fichier `docker-compose.yml` est configuré correctement avec les volumes montés et les paramètres SSL définis.
+
+2- Lancer le conteneur : Exécutez la commande suivante pour démarrer le serveur PostgreSQL dans un conteneur Docker avec SSL activé :
+
+```bash
+docker-compose up -d
+```
