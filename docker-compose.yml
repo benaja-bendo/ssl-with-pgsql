@@ -1,0 +1,37 @@
+services:
+  postgres:
+    # image: postgres:9.2.24
+    image: postgres:latest
+    container_name: postgres-ssl
+    restart: unless-stopped
+    user: postgres
+    environment:
+      POSTGRES_USER: sail
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./certs:/etc/ssl/postgresql
+    command:
+      - /bin/bash
+      - -c
+      - |
+        if [ ! -f /var/lib/postgresql/data/postgresql.conf ]; then
+          echo "Initializing PostgreSQL data directory..."
+          initdb -D /var/lib/postgresql/data
+        fi
+        chown postgres:postgres /etc/ssl/postgresql/server.key
+        chmod 600 /etc/ssl/postgresql/server.key
+        postgres -c ssl=on -c ssl_cert_file=/etc/ssl/postgresql/server.crt -c ssl_key_file=/etc/ssl/postgresql/server.key -c ssl_ca_file=/etc/ssl/postgresql/rootCA.crt
+
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
